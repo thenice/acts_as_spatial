@@ -1,0 +1,38 @@
+ActsAsSpatial
+=============
+
+SUMMARY
+ - brings true GIS spatial querying support to the ActiveRecord find method
+ - uses PostGIS functions rather than executing geometric calculations directly in the SQL query
+ - given a point, line, or polygon, find all geometries within the layer that intersect, overlap, contain, touch or are within a given geometry.
+
+INSTALL
+script/plugin install <SVN REPO HERE>
+
+REQUIREMENTS
+This plugin will only work with PostgreSQL and the PostGIS adapter. It will not work with MySQL. The database must be loaded with the PostGIS functions, and have a geometry column.  This plugin currently does not auto-geocode, so you'll have to take care of that stuff yourself. More features coming soon.
+
+USAGE
+In your models:
+class Property < ActiveRecord::Base
+       acts_as_spatial # assumes the geometry column is
+					   # called "the_geom" but can be
+					   # specified by passing :geom => 'column_name"
+end
+
+In your controllers:
+Property.find(:all, :contain => 'POINT(-71.488049 41.791564)')
+Property.find(:first, :overlap => 'POLYGON ((1 1, 1 3, 3 3, 3 1, 1 1 ))')
+Property.find(:last, :intersect => 'LINESTRING (0 2, 4 2)')
+
+You can even combine multiple spatial queries:
+Property.find(:all, :contain => 'POINT(-71.488049 41.791564)', :overlap => 'POLYGON ((1 1, 1 3, 3 3, 3 1, 1 1 ))')
+
+...or even pair a spatial query with the ActiveRecord conditions Hash like so:
+Property.find(:all, :conditions => { :hot_tub_size => 'huge' }, :within => 'POLYGON ((1 1, 1 3, 3 3, 3 1, 1 1 ))')
+
+Enjoy! More features coming soon.
+
+
+Copyright (c) 2009 Daniel Cohen, released under the MIT license
+daniel.michael.cohen@gmail.com
