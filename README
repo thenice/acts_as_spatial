@@ -7,7 +7,7 @@ SUMMARY
  - given a point, line, or polygon, find all geometries within the layer that intersect, overlap, contain, touch or are within a given geometry.
 
 INSTALL
-script/plugin install <SVN REPO HERE>
+script/plugin install git://github.com/webmapps/acts_as_spatial.git
 
 REQUIREMENTS
 This plugin will only work with PostgreSQL and the PostGIS adapter. It will not work with MySQL. The database must be loaded with the PostGIS functions, and have a geometry column.  This plugin currently does not auto-geocode, so you'll have to take care of that stuff yourself. More features coming soon.
